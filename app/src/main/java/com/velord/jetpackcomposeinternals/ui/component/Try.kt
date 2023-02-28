@@ -33,8 +33,10 @@ fun TestDisallow () {
 }
 
 @ReadOnlyComposable
+@Composable
 fun TestReadOnly() {
-    // ReadOnly() error !
+     //ReadOnly()
+    // error !
 }
 
 @Composable
