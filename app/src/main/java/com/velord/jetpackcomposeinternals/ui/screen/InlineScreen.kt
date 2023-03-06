@@ -3,8 +3,6 @@ package com.velord.jetpackcomposeinternals.ui.screen
 import androidx.annotation.StringRes
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
-import com.velord.jetpackcomposeinternals.R
 
 @Composable
 inline fun MyComposable(@StringRes nameResId: Int, resolver: (Int) -> String) {
@@ -14,7 +12,8 @@ inline fun MyComposable(@StringRes nameResId: Int, resolver: (Int) -> String) {
 
 @Composable
 fun InlineScreen() {
-    MyComposable(nameResId = R.string.app_name) @Composable {
-        LocalContext.current.resources.getString(it)
-    }
+    // lambda with @Composable annotation produce "Backend Internal error: Exception during IR lowering"
+//    MyComposable(nameResId = R.string.app_name) @Composable {
+//        LocalContext.current.resources.getString(it)
+//    }
 }
