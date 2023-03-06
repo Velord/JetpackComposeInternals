@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.velord.jetpackcomposeinternals.ui.component.Greeting
 import com.velord.jetpackcomposeinternals.ui.theme.MainTheme
+import kotlinx.coroutines.runBlocking
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,4 +36,19 @@ fun DefaultPreview() {
     MainTheme {
         Greeting("Android")
     }
+}
+
+typealias Adder = (Int, Int) -> (Int)
+
+val add: Adder = { a, b ->
+    a + b
+}
+
+fun (Adder).logged(): (Adder) = { a, b ->
+    println("Adding $a and $b")
+    this(a, b)
+}
+fun main() = runBlocking {
+    val loggedAdd = add.logged()
+    println(loggedAdd(1, 2))
 }

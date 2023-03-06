@@ -1,8 +1,8 @@
 package com.velord.jetpackcomposeinternals.ui.component
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisallowComposableCalls
-import androidx.compose.runtime.ReadOnlyComposable
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
+import androidx.compose.runtime.*
 
 @Composable
 fun Block() {
@@ -41,5 +41,34 @@ fun TestReadOnly() {
 
 @Composable
 fun ReadOnly() {
+}
 
+@Composable
+fun backPressHandler(
+    enabled: Boolean = true,
+    onBackPressed: () -> Unit
+) {
+    val dispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
+
+    val backCallback = remember {
+        object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                onBackPressed()
+            }
+        }
+    }
+
+    DisposableEffect(key1 = dispatcher) {
+        dispatcher?.addCallback(backCallback)
+        onDispose {
+            backCallback.remove()
+        }
+    }
+}
+
+@Composable
+fun TestDisposableEffect() {
+    backPressHandler {
+
+    }
 }
